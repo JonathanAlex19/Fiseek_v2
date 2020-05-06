@@ -2,10 +2,13 @@ const Clase = require('./../models/claseModel');
 
 exports.getAllClases = async (req, res) => {
     try {
+        const weekDay = new Date().getDay();
         const clases = await Clase.find()
             .populate({path: 'teacher', select: '-__v -_id'})
             .populate({path: 'subject', select: '-__v -_id'})
-            .populate({path: 'classroom', select: '-__v -_id'});
+            .populate({path: 'classroom', select: '-__v -_id'})
+            .populate({path: 'period', select: '-__v -_id'});
+            
 
         res.status(200).json({
             status: 'success',
@@ -22,6 +25,20 @@ exports.getAllClases = async (req, res) => {
         });
     }
 };
+
+// exports.getTodayClases = async (req, res) => {
+//     try {
+//         clases = await Clase.find()
+//             .populate({path: 'teacher', select: '-__v -_id'})
+//             .populate({path: 'subject', select: '-__v -_id'})
+//             .populate({path: 'classroom', select: '-__v -_id'})
+//             .populate({path: 'period', select: '-__v -_id'});
+
+//     } catch (err)
+//     {
+
+//     }
+// };
 
 exports.getClase = async (req, res) => {
     try {

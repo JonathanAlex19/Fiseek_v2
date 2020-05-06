@@ -1,0 +1,187 @@
+<body id="page-top">
+
+  <!-- Navigation section -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="/">Fiseek</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/teachers-schedule">Maestros</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/classrooms-schedule">Salones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="/advises">Asesorias</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <p></p>
+  <!-- Title and Subtitle section -->
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-12 text-center">
+          <h3 class="section-heading text-uppercase">Maestros & Salones</h3>
+          <h4 class="section-subheading text-muted">Identifica la clase ya sea por salon o por el nombre de un maestro</h4>
+        </div>
+      </div>
+
+        <!-- Search bar section -->
+      <div class="container">
+        <div class="row align-items-center">
+          <form class="col-md-10" action="/schedule" method="GET">
+            <input style="text-align:center" class="form-control" type="text" name="search" placeholder="Search" aria-label="Search" value="">
+            <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="submit">Buscar</button>
+          </form>
+        </div>
+      </div>
+
+      <p></p>
+
+      <% var currentTime = new Date()%>
+      <% var currentTimeToUse = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds()%>
+      <%= currentTimeToUse %>
+      <h3 td align="center">Clase Actual - Hora Actual:
+        <% if(currentTimeToUse >= "7:00:00" && currentTimeToUse <= "7:49:59") {%>
+          <span>M1</span>
+        <% } else if(currentTimeToUse >= "7:50:00" && currentTimeToUse <= "8:39:59") {%>
+          <span>M2</span>
+        <% } else if(currentTimeToUse >= "8:40:00" && currentTimeToUse <= "9:29:59") {%>
+          <span>M3</span>
+        <% } else if(currentTimeToUse >= "9:30:00" && currentTimeToUse <= "10:19:59") {%>
+          <span>M4</span>
+        <% } else if(currentTimeToUse >= "10:20:00" && currentTimeToUse <= "11:09:59") {%>
+          <span>M5</span>
+        <% } else if(currentTimeToUse >= "11:10:00" && currentTimeToUse <= "11:59:59") {%>
+          <span>M6</span>
+        <% } else if(currentTimeToUse >= "12:00:00" && currentTimeToUse <= "12:49:59") {%>
+          <span>V1</span>
+        <% } else if(currentTimeToUse >= "12:50:00" && currentTimeToUse <= "13:39:59") {%>
+          <span>V2</span>
+        <% } else if(currentTimeToUse >= "13:40:00" && currentTimeToUse <= "14:29:59") {%>
+          <span>V3</span>
+        <% } else if(currentTimeToUse >= "14:30:00" && currentTimeToUse <= "15:19:59") {%>
+          <span>V4</span>
+        <% } else if(currentTimeToUse >= "15:20:00" && currentTimeToUse <= "16:09:59") {%>
+          <span>V5</span>
+        <% } else if(currentTimeToUse >= "16:10:00" && currentTimeToUse <= "16:59:59") {%>
+          <span>V6</span>
+        <% } else if(currentTimeToUse >= "17:00:00" && currentTimeToUse <= "17:44:59") {%>
+          <span>N1</span>
+        <% } else if(currentTimeToUse >= "17:45:00" && currentTimeToUse <= "18:29:59") {%>
+          <span>N2</span>
+        <% } else if(currentTimeToUse >= "18:30:00" && currentTimeToUse <= "19:14:59") {%>
+          <span>N3</span>
+        <% } else if(currentTimeToUse >= "19:15:00" && currentTimeToUse <= "19:59:59") {%>
+          <span>N4</span>
+        <% } else if(currentTimeToUse >= "20:00:00" && currentTimeToUse <= "20:44:59") {%>
+          <span>N5</span>
+        <% } else if(currentTimeToUse >= "20:45:00" && currentTimeToUse <= "21:29:59") {%>
+          <span>N6</span>
+        <% } else {%>
+          <span>UwU</span>
+        <%}%>
+      </h3>
+      <p></p>
+
+      <!-- Data section -->
+    <div class="d-table" td align="center" style="width:100%">
+      <div class="d-table-row" style="width:100%">
+        <div class="d-table-cell">
+          <h4>Hora</h4>
+        </div>
+        <div class="d-table-cell">
+          <h4>Dia</h4>
+        </div>
+        <div class="d-table-cell">
+          <h4>Salon</h4>
+        </div>
+        <div class="d-table-cell">
+          <h4>Maestro</h4>
+        </div>
+        <div class="d-table-cell">
+          <h4>Materia</h4>
+        </div>
+      </div>
+    <% var weekDay = new Date().getDay(); console.log(weekDay)%>
+    <% clases.forEach(clase => { %>
+    <!-- <if( clase.day == weekDay) {%> -->
+      <div class="d-table-row" style="width:100%">
+        <div class="d-table-cell">
+          <p><%= clase.period.hour %></p>
+        </div>
+        <div class="d-table-cell">
+        
+        <% if(clase.day == 1) { %>
+          <p>L-M-V</p>
+        <% } %>
+        <% if(clase.day == 2) { %>
+          <p>Martes</p>
+        <% } %>
+        <% if(clase.day == 3) { %>
+          <p>Jueves</p>
+        <% } %>
+        <% if(clase.day == 4) { %>
+          <p>Sábado</p>
+        <% } %>
+        </div>
+        <div class="d-table-cell">
+          <p><%= clase.classroom.num %></p>
+        </div>
+        <div class="d-table-cell">
+          <p><%= clase.teacher.name %></p>
+        </div>
+        <div class="d-table-cell">
+          <p><%= clase.subject.name %></p>
+        </div>
+      </div> 
+    <!-- < } %> -->
+    <% }); %>
+
+      </div>
+    </div>     
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Fiseek 2020</span>
+        </div>
+    
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item">
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+
+</body>
