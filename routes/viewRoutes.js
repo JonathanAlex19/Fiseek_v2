@@ -3,6 +3,7 @@ const router = express.Router();
 const Clase = require('./../models/claseModel');
 const Teacher = require('./../models/teacherModel');
 const Room = require('./../models/roomModel');
+const Subject = require('./../models/subjectModel');
 
 router.get('/', (req, res) => {
     res.render('index');
@@ -108,7 +109,7 @@ router.get('/advises', (req, res) => {
     res.render('advises');
 });
 
-// Panel de administración
+//----------------------------PANEL DE ADMIN--------------------------------
 
 router.get('/panel', (req, res) => {
     res.render('panel');
@@ -133,10 +134,7 @@ router.get('/admin-teachers', async (req, res) => {
             searchOptions: req.query
         });
     } catch ( err ) {
-        res.status(404).json({
-            status: 'fail',
-            message: err
-        });
+        res.status(404).render('#');
     }
 });
 
@@ -239,16 +237,147 @@ router.post('/admin-classrooms/delete/:id', async (req, res) => {
     }
 });
 
-router.get('/admin-classrooms', (req, res) => {
-    res.send('Aqui irá el panel de classrooms')
+// router.get('/admin-subjects', (req, res) => {
+//     res.send('Aqui irá el panel de subjects')
+// });
+
+// ------------------------------MATERIAS----------------------------------
+
+// Ver y buscar materias
+router.get('/admin-subjects', async (req, res) => {
+    try  {
+        let searchOptions = {};
+        if(req.query.search != null && req.query.search != '') 
+        {
+            searchOptions.name = new RegExp(req.query.search, 'i')
+        }
+        
+        const subjects = await Subject.find(searchOptions).sort('name');
+    
+        res.status(200).render('panel-subjects', {
+            title: 'All Subjects',
+            subjects,
+            searchOptions: req.query
+        });
+    } catch ( err ) {
+        res.status(404).render('#');
+    }
 });
 
-router.get('/admin-subjects', (req, res) => {
-    res.send('Aqui irá el panel de subjects')
+// Crear materias
+router.post('/admin-subjects', async (req, res) => {
+    let searchOptions = {};
+    try {
+        
+        await Subject.create(req.body);
+
+        const subjects = await Subject.find();
+
+        res.redirect('/admin-subjects');
+
+    } catch (err) {
+        if(err.code == 11000)
+        {
+            console.log('Ya está registrado una materia con ese nombre');
+        }
+        res.status(400).redirect('#');
+    }
 });
 
-router.get('/admin-clases', (req, res) => {
-    res.send('Aqui irá el panel de clases')
-})
+// Borrar materias
+router.post('/admin-subjects/delete/:id', async (req, res) => {
+    try {
+        await Subject.findByIdAndDelete(req.params.id);
+    
+        res.redirect('/admin-subjects');
+    } catch (err) {
+        res.status(404).redirect('#');
+    }
+});
+
+// Actualizar materias
+router.post('/admin-subjects/update/:id', async (req, res) => {
+    try {
+        const subject = await Subject.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        res.redirect('/admin-subjects')
+
+    } catch (err) {
+        res.status(404).redirect('#');
+    }
+});
+
+
+// --------------------------------CLASES-------------------------------------
+
+// Ver y buscar materias
+router.get('/admin-clases', async (req, res) => {
+    try  {
+        let searchOptions = {};
+        if(req.query.search != null && req.query.search != '') 
+        {
+            searchOptions.name = new RegExp(req.query.search, 'i')
+        }
+        
+        const subjects = await Subject.find(searchOptions).sort('name');
+    
+        res.status(200).render('panel-subjects', {
+            title: 'All Subjects',
+            subjects,
+            searchOptions: req.query
+        });
+    } catch ( err ) {
+        res.status(404).render('#');
+    }
+});
+
+// Crear materias
+router.post('/admin-subjects', async (req, res) => {
+    let searchOptions = {};
+    try {
+        
+        await Subject.create(req.body);
+
+        const subjects = await Subject.find();
+
+        res.redirect('/admin-subjects');
+
+    } catch (err) {
+        if(err.code == 11000)
+        {
+            console.log('Ya está registrado una materia con ese nombre');
+        }
+        res.status(400).redirect('#');
+    }
+});
+
+// Borrar materias
+router.post('/admin-subjects/delete/:id', async (req, res) => {
+    try {
+        await Subject.findByIdAndDelete(req.params.id);
+    
+        res.redirect('/admin-subjects');
+    } catch (err) {
+        res.status(404).redirect('#');
+    }
+});
+
+// Actualizar materias
+router.post('/admin-subjects/update/:id', async (req, res) => {
+    try {
+        const subject = await Subject.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        res.redirect('/admin-subjects')
+
+    } catch (err) {
+        res.status(404).redirect('#');
+    }
+});
 
 module.exports = router;
