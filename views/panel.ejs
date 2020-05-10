@@ -1,0 +1,91 @@
+<body id="page-top">
+
+    <!-- Navigation section -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/">Fiseek</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/teachers-schedule">Maestros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/classrooms-schedule">Salones</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/advises">Asesorias</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  
+
+    <!-- Title and Subtitle section -->
+    
+    <section class="page-section" id="services">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-12 text-center">
+            <h3 class="section-heading text-uppercase">PANEL DE ADMINISTRACIÓN</h3>
+            <h4 class="section-subheading text-muted">Seleccciona lo que deseas administrar</h4>
+          </div>
+        </div>
+        
+  
+          <!-- Search bar section -->
+        <div class="container">
+        <div class="row align-items-center">
+            <form id="selectAdmin" class="col-md-10 justify" action="#" method="GET">
+                <div>
+                    <select id="adminOption" class="custom-select custom-select-lg mb-3">
+                        <option>Selecciona una opción</option>
+                        <option value="admin-teachers">Maestros</option>
+                        <option value="admin-classrooms">Salones</option>
+                        <option value="admin-subjects">Materias</option>
+                        <option value="admin-clases">Clases</option>
+                      </select>
+                <div>
+                    <button class="btn btn-primary btn text-uppercase js-scroll-trigger" onclick="document.getElementById('selectAdmin').action = document.getElementById('adminOption').value" type="submit">Administrar</button>
+                </div>
+            </form>
+        </div>
+        </div>
+        <p></p>
+     
+    </section>
+  
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+    <!-- Custom scripts for this template -->
+    <script src="js/agency.min.js"></script>
+  
+  </body>
+
+  <style>
+      @media (max-width: 500px) {
+        .page-section {
+            padding: 75px 0 !important; 
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+        }
+      }
+      .page-section {
+          padding: 150px 0;
+      }
+  </style>
