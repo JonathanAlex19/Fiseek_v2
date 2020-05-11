@@ -4,6 +4,7 @@ const Clase = require('./../models/claseModel');
 const Teacher = require('./../models/teacherModel');
 const Room = require('./../models/roomModel');
 const Subject = require('./../models/subjectModel');
+const Period = require('./../models/periodModel');
 
 router.get('/', (req, res) => {
     res.render('index');
@@ -313,7 +314,7 @@ router.post('/admin-subjects/update/:id', async (req, res) => {
 
 // --------------------------------CLASES-------------------------------------
 
-// Ver y buscar materias
+// Ver y buscar clases
 router.get('/admin-clases', async (req, res) => {
     try  {
         let searchOptions = {};
@@ -321,52 +322,59 @@ router.get('/admin-clases', async (req, res) => {
         {
             searchOptions.name = new RegExp(req.query.search, 'i')
         }
+
+        const subjects = await Subject.find().sort('name');
+        const teachers = await Teacher.find().sort('name');
+        const classrooms = await Room.find().sort('num');
+        const periods = await Period.find().sort('id');
         
-        const subjects = await Subject.find(searchOptions).sort('name');
+        const clases = await Clase.find(searchOptions)
+            .populate({path: 'teacher', select: '-__v -_id'})
+            .populate({path: 'subject', select: '-__v -_id'})
+            .populate({path: 'classroom', select: '-__v -_id'})
+            .populate({path: 'period', select: '-__v -_id'})
+            .sort('subject teacher day period');
     
-        res.status(200).render('panel-subjects', {
-            title: 'All Subjects',
+        res.status(200).render('panel-clases', {
+            clases,
+            searchOptions: req.query,
             subjects,
-            searchOptions: req.query
+            teachers,
+            classrooms,
+            periods
         });
     } catch ( err ) {
         res.status(404).render('#');
     }
 });
 
-// Crear materias
-router.post('/admin-subjects', async (req, res) => {
-    let searchOptions = {};
+// Crear clases
+router.post('/admin-clases', async (req, res) => {
     try {
-        
-        await Subject.create(req.body);
 
-        const subjects = await Subject.find();
+        await Clase.create(req.body);
 
-        res.redirect('/admin-subjects');
+        res.redirect('/admin-clases');
 
     } catch (err) {
-        if(err.code == 11000)
-        {
-            console.log('Ya está registrado una materia con ese nombre');
-        }
+        console.log('ERROR')
         res.status(400).redirect('#');
     }
 });
 
-// Borrar materias
-router.post('/admin-subjects/delete/:id', async (req, res) => {
+// Borrar clases
+router.post('/admin-clases/delete/:id', async (req, res) => {
     try {
-        await Subject.findByIdAndDelete(req.params.id);
+        await Clase.findByIdAndDelete(req.params.id);
     
-        res.redirect('/admin-subjects');
+        res.redirect('/admin-clases');
     } catch (err) {
         res.status(404).redirect('#');
     }
 });
 
-// Actualizar materias
-router.post('/admin-subjects/update/:id', async (req, res) => {
+// Actualizar clases
+router.post('/admin-clases/update/:id', async (req, res) => {
     try {
         const subject = await Subject.findByIdAndUpdate(req.params.id, req.body, {
             new: true,

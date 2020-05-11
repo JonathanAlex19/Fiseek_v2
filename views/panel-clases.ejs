@@ -1,0 +1,306 @@
+<body id="page-top">
+
+    <!-- Navigation section -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/">Fiseek</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/panel">Panel</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  
+    <p></p>
+    <!-- Title and Subtitle section -->
+    <section class="page-section" id="services">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 col-md-10 col-sm-10 text-center">
+            <h3 class="section-heading text-uppercase">Panel Administrativo - Clases</h3>
+          </div>
+        </div>
+  
+          <!-- Search bar section -->
+
+        <div class="mt-3 container">
+          <div class="row justify-content-center">
+            <form class="col-md-10" action="/admin-clases" method="GET">
+              <input style="text-align:center" class="form-control  mb-2" type="text" name="search" placeholder="Buscar Materia" aria-label="Search" value="<%= searchOptions.search%>">
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="submit">Buscar</button>
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="button" onclick="createClase()">Crear</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="mt-5 container">
+            <div class="row justify-content-center">
+                <div style="overflow-x:auto;" class="col-md-12">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Hora</th>
+                                <th>Dia</th>
+                                <th>Salón</th>
+                                <th>Maestro</th>
+                                <th>Materia</th>
+                                <th>Operaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% clases.forEach(clase => { %>
+                                <tr td align="center">
+                                    <td class=""><%= clase.period.hour %></td>
+                                    <td class="text-center align-middle">
+                                    <% if(clase.day == 1) { %>
+                                        L-M-V
+                                      <% } %>
+                                      <% if(clase.day == 2) { %>
+                                        Martes
+                                      <% } %>
+                                      <% if(clase.day == 3) { %>
+                                        Jueves
+                                      <% } %>
+                                      <% if(clase.day == 4) { %>
+                                        Sábado
+                                      <% } %>
+                                    </td>
+                                    <td class="text-center align-middle"><%= clase.classroom.num %></td>
+                                    <td class="align-middle"><%= clase.teacher.name %></td>
+                                    <td class="text-center align-middle"><%= clase.subject.name %></td>
+                                    <td class="text-center align-middle">
+                                        <button type="button" onclick="updateClase('<%= clase._id %>', '<%= clase.subject.name %>', '<%= clase.teacher.name %>', '<%= clase.classroom.num %>', '<%= clase.day %>', '<%= clase.period.hour %>', '<%= clase.group %>')" class="btn btn-info"><i class="far fa-edit"></i></button>
+                                        <button type="button" onclick="deleteClase('<%= clase._id %>')" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                    </td>
+                                 </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+      </div>     
+    </section>
+  
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-4">
+            <span class="copyright">Copyright &copy; Fiseek 2020</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  
+    
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+    <!-- Custom scripts for this template -->
+    <script src="js/agency.min.js"></script>
+  
+  </body>
+
+  <script>
+    
+    var subjectName = 1;
+    function createClase() {
+      Swal.fire({
+          title: 'Crear Registro',
+          html: '<div class="mt-3 container">' +
+                '<div>' +
+                '<form action="/admin-clases" method="POST">' +
+                // Nombre de la Materia
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text col-md-12" id="basic-addon3">Nombre de la Materia</span> '+
+                '</div>' +
+                // select
+                '<select id="subjectVal" name="subject" class="custom-select custom-select-md">' + 
+                <% subjects.forEach( subject => { %> 
+                '<option value="<%= subject._id %>"><%= subject.name %></option>' +
+                <% }); %> 
+                '</select>' +
+                //'<input class="col-md-8 form-control" type="text" name="name" placeholder="" aria-label="Search">' +
+                '</div>' +
+                // Nombre del Docente
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Nombre del Docente &nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="teacher" class="custom-select custom-select-md">' + 
+                <% teachers.forEach( teacher => { %> 
+                '<option value="<%= teacher._id %>"><%= teacher.name %></option>' +
+                <% }); %> 
+                '</select>' +
+                '</div>' +
+                // Salón
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Número de Salón &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="classroom" class="custom-select custom-select-md">' + 
+                <% classrooms.forEach( classroom => { %> 
+                '<option value="<%= classroom._id %>"><%= classroom.num %></option>' +
+                <% }); %> 
+                '</select>' +
+                '</div>' +
+                // Día
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Día &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="day" class="custom-select custom-select-md">' + 
+                '<option value="1">L-M-V</option>' +
+                '<option value="2">Martes</option>' +
+                '<option value="3">Jueves</option>' +
+                '<option value="4">Sábado</option>' +
+                '</select>' +
+                '</div>' +
+                // Periodo
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Periodo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="period" class="custom-select custom-select-md">' + 
+                <% periods.forEach( period => { %> 
+                '<option value="<%= period._id %>"><%= period.hour %></option>' +
+                <% }); %> 
+                '</select>' +'</div>' +
+                // Grupo
+                '<div class="input-group mb-5">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Grupo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<input style="text-align:left" class="col-md-8 form-control" type="text" name="group" placeholder="" aria-label="Search">' +
+                '</div>' +
+                // Botones
+                '<div class="row justify-content-center">' +
+                '<div class="ml-3"><button type="submit" class="btn btn-primary">Crear</button></div>' +
+                '<div class="ml-3"><button type="button" onclick="Swal.close()" class="btn btn-danger">Cancel</button></div>' +
+                '</div>' +
+                '</form>' +
+                '</div>' +
+                '</div>',
+          showConfirmButton: false
+      });
+    }
+
+    function deleteClase(claseId) {
+      
+      Swal.fire({
+          title: '¿Estás seguro?',
+          html: '<p class="mb-4">Se eliminará esta clase' +
+                '<div class="mt-3 container">' +
+                '<div>' +
+                '<form action="/admin-clases/delete/'+ claseId +'" method="POST">' +
+                '<div class="row justify-content-center">' +
+                '<div class="ml-3"><button type="submit" class="btn btn-primary">Eliminar</button></div>' +
+                '<div class="ml-3"><button type="button" onclick="Swal.close()" class="btn btn-danger">Cancel</button></div>' +
+                '</div>' +
+                '</form>' +
+                '</div>' +
+                '</div>',
+          showConfirmButton: false
+      });
+    }
+
+    function updateClase(claseId, subjectName, teacherName, classroomNum, day, periodHour, group) {
+      Swal.fire({
+          title: 'Modificar Registro',
+          html: '<div class="mt-3 container">' +
+                '<div>' +
+                '<form action="/admin-clases" method="POST">' +
+                // Nombre de la Materia
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text col-md-12" id="basic-addon3">Nombre de la Materia</span> '+
+                '</div>' +
+                // select
+                '<select id="adminOption" name="subject" class="custom-select custom-select-md">' + 
+                <% subjects.forEach( subject => { %> 
+                `<option value="<%= subject._id %>"><%= subject.name %></option>` +
+                <% }); %> 
+                '</select>' +
+                //'<input class="col-md-8 form-control" type="text" name="name" placeholder="" aria-label="Search">' +
+                '</div>' +
+                // Nombre del Docente
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Nombre del Docente &nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="teacher" class="custom-select custom-select-md">' + 
+                <% teachers.forEach( teacher => { %> 
+                '<option value="<%= teacher._id %>"><%= teacher.name %></option>' +
+                <% }); %> 
+                '</select>' +
+                '</div>' +
+                // Salón
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Número de Salón &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="classroom" class="custom-select custom-select-md">' + 
+                <% classrooms.forEach( classroom => { %> 
+                '<option value="<%= classroom._id %>"><%= classroom.num %></option>' +
+                <% }); %> 
+                '</select>' +
+                '</div>' +
+                // Día
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Día &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="day" class="custom-select custom-select-md">' + 
+                '<option value="1">L-M-V</option>' +
+                '<option value="2">Martes</option>' +
+                '<option value="3">Jueves</option>' +
+                '<option value="4">Sábado</option>' +
+                '</select>' +
+                '</div>' +
+                // Periodo
+                '<div class="input-group mb-3">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Periodo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<select id="adminOption" name="period" class="custom-select custom-select-md">' + 
+                <% periods.forEach( period => { %> 
+                '<option value="<%= period._id %>"><%= period.hour %></option>' +
+                <% }); %> 
+                '</select>' +'</div>' +
+                // Grupo
+                '<div class="input-group mb-5">' +
+                '<div class="input-goup-prepend">' +
+                '<span class="input-group-text" id="basic-addon3">Grupo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> '+
+                '</div>' +
+                '<input style="text-align:left" class="col-md-8 form-control" type="text" name="group" placeholder="" aria-label="Search">' +
+                '</div>' +
+                // Botones
+                '<div class="row justify-content-center">' +
+                '<div class="ml-3"><button type="submit" class="btn btn-primary">Crear</button></div>' +
+                '<div class="ml-3"><button type="button" onclick="Swal.close()" class="btn btn-danger">Cancel</button></div>' +
+                '</div>' +
+                '</form>' +
+                '</div>' +
+                '</div>',
+          showConfirmButton: false
+      });
+    }
+
+  </script>

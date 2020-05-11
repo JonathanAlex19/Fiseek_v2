@@ -38,8 +38,8 @@
           <!-- Search bar section -->
         <div class="container">
           <div class="row align-items-center">
-            <form class="col-md-10" action="/teachers-schedule" method="GET">
-              <input style="text-align:center" class="form-control" type="text" name="search" placeholder="Search" aria-label="Search" value="<%= searchOptions.search %>">
+            <form class="col justify-content-center" action="/teachers-schedule" method="GET">
+              <input style="text-align:center" class="form-control mb-2" type="text" name="search" placeholder="Buscar Maestro" aria-label="Search" value="<%= searchOptions.search %>">
               <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="submit">Buscar</button>
             </form>
           </div>
@@ -49,7 +49,6 @@
   
         <% var currentTime = new Date()%>
         <% var currentTimeToUse = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds()%>
-        <%= currentTimeToUse %>
         <h3 td align="center">Clase Actual - Hora Actual:
           <% if(currentTimeToUse >= "7:00:00" && currentTimeToUse <= "7:49:59") {%>
             <span>M1</span>
@@ -94,60 +93,47 @@
         <p></p>
   
         <!-- Data section -->
-      <div class="d-table" td align="center" style="width:100%">
-        <div class="d-table-row" style="width:100%">
-          <div class="d-table-cell">
-            <h4>Hora</h4>
+        <div class="mt-5 container">
+          <div class="row justify-content-center">
+            <div style="overflow-x: auto;" class="col-md-12">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr class="text-center">
+                  <th>Hora</th>
+                  <th>Dia</th>
+                  <th>Salon</th>
+                  <th>Maestro</th>
+                  <th>Materia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% clases.forEach(clase => { %>
+                <tr td align="center">
+                  <td> <%= clase.period.hour %> </td>
+                  <td> 
+                    <% if(clase.day == 1) { %>
+                      L-M-V
+                    <% } %>
+                    <% if(clase.day == 2) { %>
+                      Martes
+                    <% } %>
+                    <% if(clase.day == 3) { %>
+                      Jueves
+                    <% } %>
+                    <% if(clase.day == 4) { %>
+                      Sábado
+                    <% } %>  
+                  </td>
+                  <td> <%= clase.classroom.num %> </td>
+                  <td> <%= clase.teacher.name %> </td>
+                  <td> <%= clase.subject.name %> </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+            </div>
           </div>
-          <div class="d-table-cell">
-            <h4>Dia</h4>
-          </div>
-          <div class="d-table-cell">
-            <h4>Salon</h4>
-          </div>
-          <div class="d-table-cell">
-            <h4>Maestro</h4>
-          </div>
-          <div class="d-table-cell">
-            <h4>Materia</h4>
-          </div>
-        </div>
-      <% var weekDay = new Date().getDay(); console.log(weekDay)%>
-      <% clases.forEach(clase => { %>
-      <!-- <if( clase.day == weekDay) {%> -->
-        <div class="d-table-row" style="width:100%">
-          <div class="d-table-cell">
-            <p><%= clase.period.hour %></p>
-          </div>
-          <div class="d-table-cell">
-          
-          <% if(clase.day == 1) { %>
-            <p>L-M-V</p>
-          <% } %>
-          <% if(clase.day == 2) { %>
-            <p>Martes</p>
-          <% } %>
-          <% if(clase.day == 3) { %>
-            <p>Jueves</p>
-          <% } %>
-          <% if(clase.day == 4) { %>
-            <p>Sábado</p>
-          <% } %>
-          </div>
-          <div class="d-table-cell">
-            <p><%= clase.classroom.num %></p>
-          </div>
-          <div class="d-table-cell">
-            <p><%= clase.teacher.name %></p>
-          </div>
-          <div class="d-table-cell">
-            <p><%= clase.subject.name %></p>
-          </div>
-        </div> 
-      <!-- < } %> -->
-      <% }); %>
-  
-        </div>
+        </div>   
       </div>     
     </section>
   
