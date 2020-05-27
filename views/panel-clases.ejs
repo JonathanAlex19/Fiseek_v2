@@ -14,7 +14,7 @@
               <a class="nav-link js-scroll-trigger" href="/panel">Panel</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
+              <a class="nav-link js-scroll-trigger" href="/"><i class="fas fa-sign-out-alt"></i> Salir</a>
             </li>
           </ul>
         </div>
@@ -36,9 +36,9 @@
         <div class="mt-3 container">
           <div class="row justify-content-center">
             <form class="col-md-10" action="/admin-clases" method="GET">
-              <input style="text-align:center" class="form-control  mb-2" type="text" name="search" placeholder="Buscar Materia" aria-label="Search" value="<%= searchOptions.search%>">
-              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="submit">Buscar</button>
-              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="button" onclick="createClase()">Crear</button>
+              <input style="text-align:center" class="form-control  mb-2" type="text" name="search" placeholder="Buscar Materia" data-toggle="tooltip" title="Ingresa un fragmento de materia para realizar una búsqueda" aria-label="Search" value="<%= searchOptions.search%>">
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="submit" data-toggle="tooltip" title="Busca alguna materia al ingresar un nombre en el cuadro de búsqueda">Buscar</button>
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" data-toggle="tooltip" title="Crea un nuevo registro de clase" type="button" onclick="createClase()">Crear</button>
             </form>
           </div>
         </div>
@@ -79,8 +79,8 @@
                                     <td class="align-middle"><%= clase.teacher.name %></td>
                                     <td class="text-center align-middle"><%= clase.subject.name %></td>
                                     <td class="text-center align-middle">
-                                        <button type="button" onclick="updateClase('<%= clase._id %>', '<%= clase.subject.name %>', '<%= clase.teacher.name %>', '<%= clase.classroom.num %>', '<%= clase.day %>', '<%= clase.period.hour %>', '<%= clase.group %>')" class="btn btn-info"><i class="far fa-edit"></i></button>
-                                        <button type="button" onclick="deleteClase('<%= clase._id %>')" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        <button type="button"  data-toggle="tooltip" title="Editar Clase" onclick="updateClase('<%= clase._id %>', '<%= clase.subject.name %>', '<%= clase.teacher.name %>', '<%= clase.classroom.num %>', '<%= clase.day %>', '<%= clase.period.hour %>', '<%= clase.group %>')" class="btn btn-info"><i class="far fa-edit"></i></button>
+                                        <button type="button" data-toggle="tooltip" title="Eliminar Clase" onclick="deleteClase('<%= clase._id %>')" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                     </td>
                                  </tr>
                             <% }); %>

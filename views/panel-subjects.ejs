@@ -14,7 +14,7 @@
               <a class="nav-link js-scroll-trigger" href="/panel">Panel</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
+              <a class="nav-link js-scroll-trigger" href="/"><i class="fas fa-sign-out-alt"></i> Salir</a>
             </li>
           </ul>
         </div>
@@ -36,9 +36,9 @@
         <div class="mt-3 container">
           <div class="row justify-content-center">
             <form class="col-md-10" action="/admin-subjects" method="GET">
-              <input style="text-align:center" class="form-control  mb-2" type="text" name="search" placeholder="Buscar Materia" aria-label="Search" value="<%= searchOptions.search%>">
-              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="submit">Buscar</button>
-              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="button" onclick="createSubject()">Crear</button>
+              <input style="text-align:center" class="form-control  mb-2" type="text" name="search" data-toggle="tooltip" title="Ingresa un fragmento de nombre para realizar una búsqueda" placeholder="Buscar Materia" aria-label="Search" value="<%= searchOptions.search%>">
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" data-toggle="tooltip" title="Busca alguna materia al ingresar su nombre en el cuadro de búsqueda" type="submit">Buscar</button>
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="button" data-toggle="tooltip" title="Crea un nuevo registro de materia" onclick="createSubject()">Crear</button>
             </form>
           </div>
         </div>
@@ -58,8 +58,8 @@
                                 <tr>
                                     <td class="col-md-3"><%= subject.name %></td>
                                     <td>
-                                        <button type="button" onclick="updateSubject('<%= subject.name %>', '<%= subject._id %>')" class="btn btn-info"><i class="far fa-edit"></i></button>
-                                        <button type="button" onclick="deleteSubject('<%= subject.name %>', '<%= subject._id %>')" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        <button type="button" data-toggle="tooltip" title="Editar Materia" onclick="updateSubject('<%= subject.name %>', '<%= subject._id %>')" class="btn btn-info"><i class="far fa-edit"></i></button>
+                                        <button type="button" data-toggle="tooltip" title="Eliminar Materia" onclick="deleteSubject('<%= subject.name %>', '<%= subject._id %>')" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                     </td>
                                  </tr>
                             <% }); %>

@@ -14,7 +14,7 @@
               <a class="nav-link js-scroll-trigger" href="/panel">Panel</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#"><i class="fas fa-sign-out-alt"></i> Salir</a>
+              <a class="nav-link js-scroll-trigger" href="/"><i class="fas fa-sign-out-alt"></i> Salir</a>
             </li>
           </ul>
         </div>
@@ -36,9 +36,9 @@
         <div class="mt-3 container">
           <div class="row justify-content-center">
             <form class="col-md-10" action="/admin-classrooms" method="GET">
-              <input style="text-align:center" class="form-control mb-2" type="number" name="search" placeholder="Buscar Salón" aria-label="Search" value="<%= searchOptions.search%>">
-              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="submit">Buscar</button>
-              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" type="button" onclick="createClassroom()">Crear</button>
+              <input style="text-align:center" class="form-control mb-2" type="number" name="search" placeholder="Buscar Salón" data-toggle="tooltip" title="Ingresa un número de 4 dígitos para realizar una búsqueda" aria-label="Search" value="<%= searchOptions.search%>">
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" data-toggle="tooltip" title="Busca algún salón al ingresar un número en el cuadro de búsqueda" type="submit">Buscar</button>
+              <button class="btn btn-primary btn text-uppercase js-scroll-trigger" data-toggle="tooltip" title="Crea un nuevo registro de salón" type="button" onclick="createClassroom()">Crear</button>
             </form>
           </div>
         </div>
@@ -60,7 +60,7 @@
                                     <tr>
                                         <td class="col-md-3 text-center"><%= room.num %></td>
                                         <td class="col-md-3 text-center">
-                                            <button type="button" onclick="deleteClassroom('<%= room.num %>', '<%= room._id %>')" class="btn btn-danger mx-auto"><i class="far fa-trash-alt"></i></button>
+                                            <button type="button" data-toggle="tooltip" title="Eliminar Salón" onclick="deleteClassroom('<%= room.num %>', '<%= room._id %>')" class="btn btn-danger mx-auto"><i class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 <% }); %>
