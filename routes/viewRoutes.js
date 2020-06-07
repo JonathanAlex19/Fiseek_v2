@@ -10,6 +10,39 @@ router.get('/', (req, res) => {
     res.render('index');
 });
 
+router.get('/', async (req, res) => {
+    try  {
+        let searchOptions = {};
+        console.log(req.query);
+        if(req.query.search != null && req.query.search != '') 
+        {
+            searchOptions.subject = new RegExp(req.query.search, 'i')
+            console.log(searchOptions)
+            const subject = await Subject.find({name: searchOptions.subject});
+            searchOptions.subject = subject
+        }
+        
+        const clases = await Clase.find(searchOptions)
+            .populate({path: 'teacher', select: '-__v -_id'})
+            .populate({path: 'subject', select: '-__v -_id'})
+            .populate({path: 'classroom', select: '-__v -_id'})
+            .populate({path: 'period', select: '-__v -_id'})
+            .sort('subject day period');
+
+    
+        res.status(200).render('subjects-schedule', {
+            title: 'All subjects',
+            clases: clases,
+            searchOptions: req.query
+        });
+    } catch ( err ) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        });
+    }
+});
+
 router.get('/schedule', async (req, res) => {
     try  {
         let searchOptions = {};
@@ -46,6 +79,8 @@ router.get('/schedule', async (req, res) => {
 
 router.get('/teachers-schedule', async (req, res) => {
     try  {
+
+
         let searchOptions = {};
         console.log(req.query);
         if(req.query.search != null && req.query.search != '') 
@@ -77,12 +112,13 @@ router.get('/teachers-schedule', async (req, res) => {
 });
 
 router.get('/classrooms-schedule', async (req, res) => {
+    let searchOptions = {};
     try  {
-        let searchOptions = {};
+        
 
         if(req.query.search != null && req.query.search != '') 
         {
-            searchOptions.classroom = req.query.search * 1;
+            searchOptions.classroom = req.query.search;
             const classroom = await Room.find({num: searchOptions.classroom});
             console.log(classroom);
             searchOptions.classroom = classroom;
@@ -102,7 +138,40 @@ router.get('/classrooms-schedule', async (req, res) => {
             searchOptions: req.query
         });
     } catch ( err ) {
-        res.status(404).render('#');
+        res.status(404).redirect('/classrooms-schedule');
+    }
+});
+
+router.get('/subjects-schedule', async (req, res) => {
+    try  {
+        let searchOptions = {};
+        console.log(req.query);
+        if(req.query.search != null && req.query.search != '') 
+        {
+            searchOptions.subject = new RegExp(req.query.search, 'i')
+            console.log(searchOptions)
+            const subject = await Subject.find({name: searchOptions.subject});
+            searchOptions.subject = subject
+        }
+        
+        const clases = await Clase.find(searchOptions)
+            .populate({path: 'teacher', select: '-__v -_id'})
+            .populate({path: 'subject', select: '-__v -_id'})
+            .populate({path: 'classroom', select: '-__v -_id'})
+            .populate({path: 'period', select: '-__v -_id'})
+            .sort('subject day period');
+
+    
+        res.status(200).render('subjects-schedule', {
+            title: 'All subjects',
+            clases: clases,
+            searchOptions: req.query
+        });
+    } catch ( err ) {
+        res.status(404).json({
+            status: 'fail',
+            message: err
+        });
     }
 });
 
